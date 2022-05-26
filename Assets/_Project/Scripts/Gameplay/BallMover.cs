@@ -34,7 +34,8 @@ namespace Bowling.Gameplay
 
             desiredVelocity *= displacement.magnitude * 0.05f;
 
-            _rigidbody.velocity = Vector3.MoveTowards(_rigidbody.velocity, desiredVelocity, _acceleration * Time.deltaTime);
+            _rigidbody.velocity = desiredVelocity;
+            //_rigidbody.velocity = Vector3.MoveTowards(_rigidbody.velocity, desiredVelocity, _acceleration * Time.deltaTime);
             transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.one, _balloonSpeed * Time.deltaTime);
         }
     }

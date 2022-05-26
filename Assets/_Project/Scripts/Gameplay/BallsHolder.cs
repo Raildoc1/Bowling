@@ -37,7 +37,7 @@ namespace Bowling.Gameplay
                     GetBallSpawnPosition(i),
                     Quaternion.identity,
                     transform);
-                ball.Init(transform);
+                ball.Init(_target);
                 _balls.Add(ball);
             }
         }
