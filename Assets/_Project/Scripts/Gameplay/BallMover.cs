@@ -29,6 +29,11 @@ namespace Bowling.Gameplay
             transform.localScale = Vector3.one * 0.1f;
         }
 
+        public void Destroy()
+        {
+            _pool.Release(this);
+        }
+
         private void Update()
         {
             transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.one, _balloonSpeed * Time.deltaTime);
@@ -47,16 +52,11 @@ namespace Bowling.Gameplay
             //_rigidbody.velocity = Vector3.MoveTowards(_rigidbody.velocity, desiredVelocity, _acceleration * Time.deltaTime);
         }
 
-        private void ReturnToPool()
-        {
-            _pool.Release(this);
-        }
-
         private void OnTriggerStay(Collider other)
         {
             if (other.CompareTag("Obstacle"))
             {
-                ReturnToPool();
+                Destroy();
             }
         }
     }
