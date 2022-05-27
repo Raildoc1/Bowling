@@ -3,29 +3,43 @@ using UnityEngine;
 
 namespace Bowling.Gameplay
 {
-    public class PlayerMover : MonoBehaviour
+    public class TargetMover : MonoBehaviour
     {
         [SerializeField] private float _verticalSpeed = 1.0f;
         [SerializeField] private float _horizontalSpeed = 2.5f;
         [SerializeField] private float _minX = -5.0f;
         [SerializeField] private float _maxX = 5.0f;
-        [SerializeField] private InputListener _inputListener;
 
+        private InputListener _inputListener;
+        private GameState _gameState;
         private float _targetX;
 
-        private void OnEnable()
+        public void Init(InputListener inputListener, GameState gameState)
         {
+            _inputListener = inputListener;
             _targetX = 0.0f;
             _inputListener.Drag += OnDrag;
+            _gameState = gameState;
         }
 
-        private void OnDisable()
+        public void Deinit()
         {
             _inputListener.Drag -= OnDrag;
         }
 
         private void Update()
         {
+            if (!_gameState)
+            {
+                return;
+            }
+
+            if (_gameState.CurrentState == GameState.State.Lost
+                || _gameState.CurrentState == GameState.State.WaitingForTap)
+            {
+                return;
+            }
+
             var currentPosition = transform.position;
             var targetPosition = currentPosition;
             targetPosition.x = _targetX;

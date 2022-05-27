@@ -12,9 +12,12 @@ namespace Bowling.Gameplay
 
         private readonly List<BallMover> _balls = new();
         private IObjectPool<BallMover> _pool;
+        private GameState _gameState;
 
-        private void Start()
+        public void Init(GameState gameState)
         {
+            _gameState = gameState;
+            _gameState.GameStateChanged += OnGameStart;
             _pool = new ObjectPool<BallMover>(
                 CreateBall,
                 OnTakeFromPool,
@@ -23,6 +26,19 @@ namespace Bowling.Gameplay
                 true,
                 50,
                 200);
+        }
+
+        public void Deinit()
+        {
+            _gameState.GameStateChanged -= OnGameStart;
+        }
+
+        private void OnGameStart(GameState.State state)
+        {
+            if (state != GameState.State.Playing)
+            {
+                return;
+            }
             SpawnAmount(_initBallsAmount);
         }
 
@@ -72,6 +88,10 @@ namespace Bowling.Gameplay
         {
             _balls.Remove(ball);
             ball.gameObject.SetActive(false);
+            if (_balls.Count == 0)
+            {
+                _gameState.LoseGame();
+            }
         }
 
         private void OnTakeFromPool(BallMover ball)
@@ -84,6 +104,10 @@ namespace Bowling.Gameplay
         {
             _balls.Remove(ball);
             Destroy(ball.gameObject);
+            if (_balls.Count == 0)
+            {
+                _gameState.LoseGame();
+            }
         }
     }
 }
