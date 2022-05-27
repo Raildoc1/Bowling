@@ -8,7 +8,6 @@ namespace Bowling.Gameplay
     public class BallMover : MonoBehaviour
     {
         [SerializeField] private float _speed = 1.0f;
-        [SerializeField] private float _acceleration = 1.0f;
         [SerializeField] private float _balloonSpeed = 1.0f;
 
         private Rigidbody _rigidbody;
@@ -49,7 +48,6 @@ namespace Bowling.Gameplay
             desiredVelocity *= displacement.magnitude * 0.05f;
 
             _rigidbody.velocity = desiredVelocity;
-            //_rigidbody.velocity = Vector3.MoveTowards(_rigidbody.velocity, desiredVelocity, _acceleration * Time.deltaTime);
         }
 
         private void OnTriggerStay(Collider other)
