@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
+using Random = UnityEngine.Random;
 
 namespace Bowling.Gameplay
 {
@@ -17,7 +18,7 @@ namespace Bowling.Gameplay
         public void Init(GameState gameState)
         {
             _gameState = gameState;
-            _gameState.GameStateChanged += OnGameStart;
+            _gameState.GameStateChanged += OnGameStateChanged;
             _pool = new ObjectPool<BallMover>(
                 CreateBall,
                 OnTakeFromPool,
@@ -30,16 +31,26 @@ namespace Bowling.Gameplay
 
         public void Deinit()
         {
-            _gameState.GameStateChanged -= OnGameStart;
+            _gameState.GameStateChanged -= OnGameStateChanged;
         }
 
-        private void OnGameStart(GameState.State state)
+        private void OnGameStateChanged(GameState.State state)
         {
-            if (state != GameState.State.Playing)
+            switch (state)
             {
-                return;
+                case GameState.State.Playing:
+                    SpawnAmount(_initBallsAmount);
+                    break;
+                case GameState.State.Final:
+                    foreach (var ballMover in _balls)
+                    {
+                        ballMover.DisableGravity();
+                    }
+                    break;
+                case GameState.State.WaitingForTap:
+                case GameState.State.Lost:
+                    break;
             }
-            SpawnAmount(_initBallsAmount);
         }
 
         public void Multiply(int value)

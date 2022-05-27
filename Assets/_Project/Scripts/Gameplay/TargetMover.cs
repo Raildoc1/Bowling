@@ -9,33 +9,31 @@ namespace Bowling.Gameplay
         [SerializeField] private float _horizontalSpeed = 2.5f;
         [SerializeField] private float _minX = -5.0f;
         [SerializeField] private float _maxX = 5.0f;
+        [SerializeField] private Transform _finalTarget;
 
         private InputListener _inputListener;
         private GameState _gameState;
         private float _targetX;
+        private bool _movingForward;
 
         public void Init(InputListener inputListener, GameState gameState)
         {
             _inputListener = inputListener;
+            _gameState = gameState;
             _targetX = 0.0f;
             _inputListener.Drag += OnDrag;
-            _gameState = gameState;
+            _gameState.GameStateChanged += OnGameStateChanged;
         }
 
         public void Deinit()
         {
             _inputListener.Drag -= OnDrag;
+            _gameState.GameStateChanged -= OnGameStateChanged;
         }
 
         private void Update()
         {
-            if (!_gameState)
-            {
-                return;
-            }
-
-            if (_gameState.CurrentState == GameState.State.Lost
-                || _gameState.CurrentState == GameState.State.WaitingForTap)
+            if (!_movingForward)
             {
                 return;
             }
@@ -50,6 +48,16 @@ namespace Bowling.Gameplay
         private void OnDrag(float delta)
         {
             _targetX = Mathf.Clamp(_targetX + delta, _minX, _maxX);
+        }
+
+        private void OnGameStateChanged(GameState.State state)
+        {
+            _movingForward = state == GameState.State.Playing;
+
+            if (state == GameState.State.Final)
+            {
+                transform.position = _finalTarget.position;
+            }
         }
     }
 }

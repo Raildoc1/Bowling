@@ -10,7 +10,7 @@ namespace Bowling.Gameplay
             WaitingForTap,
             Playing,
             Lost,
-            Winning
+            Final
         }
 
         public State CurrentState
@@ -35,6 +35,11 @@ namespace Bowling.Gameplay
         public void LoseGame()
         {
             CurrentState = State.Lost;
+        }
+
+        public void WinLevel()
+        {
+            CurrentState = State.Final;
         }
     }
 }

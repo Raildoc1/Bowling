@@ -1,5 +1,5 @@
+using System;
 using System.Collections;
-using Bowling.Input;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -10,14 +10,13 @@ namespace Bowling.Gameplay
     {
         [SerializeField] private float _speed = 1.0f;
         [SerializeField] private float _balloonSpeed = 1.0f;
-        [SerializeField] private ParticleSystem _particleSystem;
-        [SerializeField] private MeshRenderer _view;
+        [SerializeField] private float _destroyDelay = 0.2f;
 
         private Rigidbody _rigidbody;
         private Transform _target;
-        private InputListener _inputListener;
-
         private IObjectPool<BallMover> _pool;
+
+        public event Action BallDestroyed;
 
         private void Awake()
         {
@@ -31,23 +30,21 @@ namespace Bowling.Gameplay
             transform.localScale = Vector3.one * 0.1f;
         }
 
-        private void OnEnable()
-        {
-            _view.gameObject.SetActive(true);
-            _particleSystem.gameObject.SetActive(false);
-        }
-
         public void Destroy()
         {
             StartCoroutine(DestroyRoutine());
         }
 
+        public void DisableGravity()
+        {
+            _rigidbody.useGravity = false;
+            _rigidbody.constraints = RigidbodyConstraints.None;
+        }
+
         private IEnumerator DestroyRoutine()
         {
-            _view.gameObject.SetActive(false);
-            _particleSystem.gameObject.SetActive(true);
-            _particleSystem.Play();
-            yield return new WaitForSeconds(_particleSystem.main.duration);
+            BallDestroyed?.Invoke();
+            yield return new WaitForSeconds(_destroyDelay);
             _pool.Release(this);
         }
 

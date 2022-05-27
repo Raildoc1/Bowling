@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 9205679545204558360}
   - component: {fileID: 937381757}
   - component: {fileID: 6648266760783539306}
+  - component: {fileID: 7700580112580371918}
   m_Layer: 6
   m_Name: Ball
   m_TagString: Ball
@@ -79,6 +80,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 20
   _balloonSpeed: 4
+  _destroyDelay: 0.2
+--- !u!114 &7700580112580371918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 75243452588685250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab0b0f3f9a89f3c49bf54938dafdabfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ballMover: {fileID: 6648266760783539306}
   _particleSystem: {fileID: 7836606899005254859}
   _view: {fileID: 374257131066150295}
 --- !u!1 &4836762899269409900
