@@ -1,3 +1,4 @@
+using System.Collections;
 using Bowling.Input;
 using DG.Tweening;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace Bowling.Gameplay
         [SerializeField] private float _maxAimAngle = 180.0f;
         [SerializeField] private Transform _arrow;
         [SerializeField] private float _rotateTime = 1.0f;
+        [SerializeField] private float _ballFlightLength = 5.0f;
 
         private InputListener _inputListener;
         private GameState _gameState;
@@ -67,6 +69,13 @@ namespace Bowling.Gameplay
             _arrow.gameObject.SetActive(false);
             _sequence.Kill();
             _finalBall.Launch(_arrow.forward);
+            StartCoroutine(WaitBallFlightRoutine(_ballFlightLength));
+        }
+
+        private IEnumerator WaitBallFlightRoutine(float ballFlightLength)
+        {
+            yield return new WaitForSeconds(ballFlightLength);
+            _gameState.WinLevel();
         }
     }
 }

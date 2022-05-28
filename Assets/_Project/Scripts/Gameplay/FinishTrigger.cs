@@ -16,7 +16,7 @@ namespace Bowling.Gameplay
         {
             if (other.gameObject.CompareTag("Ball"))
             {
-                _gameState.WinLevel();
+                _gameState.StartFinalStage();
                 enabled = false;
             }
         }

@@ -27,6 +27,7 @@ namespace Bowling.Gameplay
             _trigger.enabled = false;
             _collider.enabled = true;
             _rigidbody.AddForce(direction * _launchStrength, ForceMode.Impulse);
+            _rigidbody.useGravity = true;
         }
 
         private void OnTriggerEnter(Collider other)

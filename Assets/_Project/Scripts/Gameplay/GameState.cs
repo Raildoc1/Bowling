@@ -39,9 +39,14 @@ namespace Bowling.Gameplay
             CurrentState = State.Lost;
         }
 
-        public void WinLevel()
+        public void StartFinalStage()
         {
             CurrentState = State.FinalCollecting;
+        }
+
+        public void WinLevel()
+        {
+            CurrentState = State.Win;
         }
 
         public void StartLaunching()

@@ -230,6 +230,7 @@ MonoBehaviour:
   _maxAimAngle: 45
   _arrow: {fileID: 1422781403}
   _rotateTime: 2
+  _ballFlightLength: 3
 --- !u!1 &225606536
 GameObject:
   m_ObjectHideFlags: 0
