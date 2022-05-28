@@ -7,7 +7,6 @@ namespace Bowling.Gameplay
     {
         public void NextLevel()
         {
-            Debug.Log("NextLevel()");
             if (SceneManager.GetActiveScene().buildIndex < SceneManager.sceneCount)
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
@@ -16,7 +15,6 @@ namespace Bowling.Gameplay
 
         public void RestartLevel()
         {
-            Debug.Log("RestartLevel()");
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
