@@ -20,7 +20,7 @@ namespace Bowling.Gameplay
             {
                 return true;
             }
-            
+
             return Vector3.Distance(transform.position, _beginPosition) > maxDistance;
         }
     }

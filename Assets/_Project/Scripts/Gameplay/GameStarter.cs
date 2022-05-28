@@ -1,5 +1,6 @@
 using Bowling.Cinemachine;
 using Bowling.Input;
+using Bowling.View;
 using UnityEngine;
 
 namespace Bowling.Gameplay
@@ -13,6 +14,8 @@ namespace Bowling.Gameplay
         [SerializeField] private FinishTrigger _finishTrigger;
         [SerializeField] private FinalBallLauncher _finalBallLauncher;
         [SerializeField] private CameraController _cameraController;
+        [SerializeField] private WinLoseWindowManager _winLoseWindowManager;
+        [SerializeField] private PinsCounter _pinsCounter;
 
         private void Awake()
         {
@@ -21,6 +24,7 @@ namespace Bowling.Gameplay
             _finishTrigger.Init(_gameState);
             _finalBallLauncher.Init(_inputListener, _gameState);
             _cameraController.Init(_gameState);
+            _winLoseWindowManager.Init(_gameState, _pinsCounter);
         }
 
         private void OnDestroy()
@@ -29,6 +33,7 @@ namespace Bowling.Gameplay
             _targetMover.Deinit();
             _finalBallLauncher.Deinit();
             _cameraController.Deinit();
+            _winLoseWindowManager.Deinit();
         }
     }
 
