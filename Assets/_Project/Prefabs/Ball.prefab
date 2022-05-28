@@ -93,7 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab0b0f3f9a89f3c49bf54938dafdabfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ballMover: {fileID: 6648266760783539306}
+  ball: {fileID: 6648266760783539306}
   _particleSystem: {fileID: 7836606899005254859}
   _view: {fileID: 374257131066150295}
 --- !u!1 &4836762899269409900

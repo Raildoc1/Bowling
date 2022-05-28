@@ -7,7 +7,7 @@ namespace Bowling.View
 {
     public class BallView : MonoBehaviour
     {
-        [FormerlySerializedAs("_ballMover")] [SerializeField] private Ball ball;
+        [SerializeField] private Ball ball;
         [SerializeField] private ParticleSystem _particleSystem;
         [SerializeField] private MeshRenderer _view;
 
