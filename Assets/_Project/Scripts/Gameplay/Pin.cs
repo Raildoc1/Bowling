@@ -24,7 +24,7 @@ namespace Bowling.Gameplay
                 return;
             }
 
-            var ball = collision.gameObject.GetComponent<BallMover>();
+            var ball = collision.gameObject.GetComponent<Ball>();
 
             if (!ball.isActiveAndEnabled)
             {
@@ -32,7 +32,7 @@ namespace Bowling.Gameplay
             }
 
             _rigidbody.AddForce(collision.contacts[0].normal * _hitStrength + Vector3.up * _upHitStrength, ForceMode.Impulse);
-            collision.gameObject.GetComponent<BallMover>().Destroy();
+            collision.gameObject.GetComponent<Ball>().Destroy();
             _hit = true;
         }
     }

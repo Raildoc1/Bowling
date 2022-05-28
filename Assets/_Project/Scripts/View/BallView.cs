@@ -1,25 +1,34 @@
 using System;
 using Bowling.Gameplay;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Bowling.View
 {
     public class BallView : MonoBehaviour
     {
-        [SerializeField] private BallMover _ballMover;
+        [FormerlySerializedAs("_ballMover")] [SerializeField] private Ball ball;
         [SerializeField] private ParticleSystem _particleSystem;
         [SerializeField] private MeshRenderer _view;
 
+        private void Awake()
+        {
+            if (!ball || !_particleSystem || !_view)
+            {
+                Debug.LogError("BallView: Wrong Description!");
+            }
+        }
+
         private void OnEnable()
         {
-            _ballMover.BallDestroyed += OnBallDestroyed;
+            ball.BallDestroyed += OnBallDestroyed;
             _view.gameObject.SetActive(true);
             _particleSystem.gameObject.SetActive(false);
         }
 
         private void OnDisable()
         {
-            _ballMover.BallDestroyed -= OnBallDestroyed;
+            ball.BallDestroyed -= OnBallDestroyed;
         }
 
         private void OnBallDestroyed()

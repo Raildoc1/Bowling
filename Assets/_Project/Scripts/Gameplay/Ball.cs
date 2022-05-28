@@ -6,7 +6,7 @@ using UnityEngine.Pool;
 namespace Bowling.Gameplay
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class BallMover : MonoBehaviour
+    public class Ball : MonoBehaviour
     {
         [SerializeField] private float _speed = 1.0f;
         [SerializeField] private float _balloonSpeed = 1.0f;
@@ -14,7 +14,7 @@ namespace Bowling.Gameplay
 
         private Rigidbody _rigidbody;
         private Transform _target;
-        private IObjectPool<BallMover> _pool;
+        private IObjectPool<Ball> _pool;
 
         public event Action BallDestroyed;
 
@@ -23,7 +23,7 @@ namespace Bowling.Gameplay
             _rigidbody = GetComponent<Rigidbody>();
         }
 
-        public void Init(Transform target, IObjectPool<BallMover> pool)
+        public void Init(Transform target, IObjectPool<Ball> pool)
         {
             _target = target;
             _pool = pool;

@@ -19,6 +19,12 @@ namespace Bowling.Gameplay
 
         private void Awake()
         {
+            if (!_ballsHolder || !_targetMover || !_gameState || !_inputListener || !_finishTrigger ||
+                !_finalBallLauncher || !_cameraController || !_winLoseWindowManager || !_pinsCounter)
+            {
+                Debug.LogError("GameStarter: Wrong Description!");
+            }
+
             _ballsHolder.Init(_gameState);
             _targetMover.Init(_inputListener, _gameState);
             _finishTrigger.Init(_gameState);
@@ -36,5 +42,4 @@ namespace Bowling.Gameplay
             _winLoseWindowManager.Deinit();
         }
     }
-
 }

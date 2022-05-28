@@ -9,18 +9,26 @@ namespace Bowling.Gameplay
     public class BallsHolder : MonoBehaviour
     {
         [SerializeField] private int _initBallsAmount = 1;
-        [SerializeField] private BallMover _ballPrefab;
+        [SerializeField] private Ball _ballPrefab;
         [SerializeField] private Transform _target;
 
-        private readonly List<BallMover> _balls = new();
-        private IObjectPool<BallMover> _pool;
+        private readonly List<Ball> _balls = new();
+        private IObjectPool<Ball> _pool;
         private GameState _gameState;
+
+        private void Awake()
+        {
+            if (!_ballPrefab || !_target)
+            {
+                Debug.LogError("BallsHolder: Wrong Description!");
+            }
+        }
 
         public void Init(GameState gameState)
         {
             _gameState = gameState;
             _gameState.GameStateChanged += OnGameStateChanged;
-            _pool = new ObjectPool<BallMover>(
+            _pool = new ObjectPool<Ball>(
                 CreateBall,
                 OnTakeFromPool,
                 OnReturnedToPool,
@@ -47,9 +55,6 @@ namespace Bowling.Gameplay
                     {
                         ballMover.DisableGravity();
                     }
-                    break;
-                case GameState.State.WaitingForTap:
-                case GameState.State.Lost:
                     break;
             }
         }
@@ -85,7 +90,7 @@ namespace Bowling.Gameplay
             return _balls[index % _balls.Count].transform.position + offset.normalized * 0.01f;
         }
 
-        private BallMover CreateBall()
+        private Ball CreateBall()
         {
             var ball = Instantiate(
                 _ballPrefab,
@@ -96,7 +101,7 @@ namespace Bowling.Gameplay
             return ball;
         }
 
-        private void OnReturnedToPool(BallMover ball)
+        private void OnReturnedToPool(Ball ball)
         {
             _balls.Remove(ball);
             ball.gameObject.SetActive(false);
@@ -110,22 +115,17 @@ namespace Bowling.Gameplay
                     case GameState.State.Playing:
                         _gameState.LoseGame();
                         break;
-                    case GameState.State.WaitingForTap:
-                    case GameState.State.Lost:
-                    case GameState.State.FinalLaunching:
-                    case GameState.State.Win:
-                        break;
                 }
             }
         }
 
-        private void OnTakeFromPool(BallMover ball)
+        private void OnTakeFromPool(Ball ball)
         {
             _balls.Add(ball);
             ball.gameObject.SetActive(true);
         }
 
-        private void OnDestroyPoolObject(BallMover ball)
+        private void OnDestroyPoolObject(Ball ball)
         {
             _balls.Remove(ball);
             Destroy(ball.gameObject);

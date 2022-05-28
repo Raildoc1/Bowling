@@ -13,6 +13,14 @@ namespace Bowling.View
         private GameState _gameState;
         private PinsCounter _pinsCounter;
 
+        private void Awake()
+        {
+            if (!_winWindow || !_loseWindow || !_winText)
+            {
+                Debug.LogError("WinLoseWindowManager: Wrong Description!");
+            }
+        }
+
         public void Init(GameState gameState, PinsCounter pinsCounter)
         {
             _gameState = gameState;

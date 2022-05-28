@@ -18,6 +18,11 @@ namespace Bowling.Gameplay
 
         private void Awake()
         {
+            if (!_collider || !_trigger || !_mesh)
+            {
+                Debug.LogError("FinalBall: Wrong Description!");
+            }
+
             _mesh.localScale = _mass == 0 ? Vector3.zero : Vector3.one;
             _rigidbody = GetComponent<Rigidbody>();
         }
@@ -34,7 +39,7 @@ namespace Bowling.Gameplay
         {
             if (other.gameObject.CompareTag("Ball"))
             {
-                other.gameObject.GetComponent<BallMover>().Destroy();
+                other.gameObject.GetComponent<Ball>().Destroy();
                 _mass++;
                 _rigidbody.mass = _mass;
                 _mesh.localScale = _mass == 0 ? Vector3.zero : Vector3.one;

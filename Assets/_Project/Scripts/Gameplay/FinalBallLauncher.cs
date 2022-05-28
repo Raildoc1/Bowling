@@ -20,6 +20,14 @@ namespace Bowling.Gameplay
         private Sequence _sequence;
         private bool _finalStateStarted;
 
+        private void Awake()
+        {
+            if (!_finalBall || !_arrow)
+            {
+                Debug.LogError("CameraController: Wrong Description!");
+            }
+        }
+
         public void Init(InputListener inputListener, GameState gameState)
         {
             _inputListener = inputListener;

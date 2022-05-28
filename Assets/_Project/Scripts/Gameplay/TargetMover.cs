@@ -16,6 +16,14 @@ namespace Bowling.Gameplay
         private float _targetX;
         private bool _movingForward;
 
+        private void Awake()
+        {
+            if (!_finalTarget)
+            {
+                Debug.LogError("TargetMover: Wrong Description!");
+            }
+        }
+
         public void Init(InputListener inputListener, GameState gameState)
         {
             _inputListener = inputListener;

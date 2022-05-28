@@ -11,6 +11,14 @@ namespace Bowling.Cinemachine
 
         private GameState _gameState;
 
+        private void Awake()
+        {
+            if (!_mainVirtualCamera || !_finalVirtualCamera)
+            {
+                Debug.LogError("CameraController: Wrong Description!");
+            }
+        }
+
         public void Init(GameState gameState)
         {
             _gameState = gameState;
