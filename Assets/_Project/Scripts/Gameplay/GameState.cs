@@ -10,7 +10,9 @@ namespace Bowling.Gameplay
             WaitingForTap,
             Playing,
             Lost,
-            Final
+            FinalCollecting,
+            FinalLaunching,
+            Win,
         }
 
         public State CurrentState
@@ -39,7 +41,12 @@ namespace Bowling.Gameplay
 
         public void WinLevel()
         {
-            CurrentState = State.Final;
+            CurrentState = State.FinalCollecting;
+        }
+
+        public void StartLaunching()
+        {
+            CurrentState = State.FinalLaunching;
         }
     }
 }

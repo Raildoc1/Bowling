@@ -1,4 +1,3 @@
-using System;
 using Bowling.Input;
 using DG.Tweening;
 using UnityEngine;
@@ -10,7 +9,6 @@ namespace Bowling.Gameplay
         [SerializeField] private FinalBall _finalBall;
         [SerializeField] private float _minAimAngle = -180.0f;
         [SerializeField] private float _maxAimAngle = 180.0f;
-        [SerializeField] private float _aimMoveSensitivity = 0.01f;
         [SerializeField] private Transform _arrow;
         [SerializeField] private float _rotateTime = 1.0f;
 
@@ -25,25 +23,24 @@ namespace Bowling.Gameplay
             _inputListener = inputListener;
             _gameState = gameState;
 
-            _inputListener.Drag += OnPointerDrag;
-            _inputListener.Up += OnPointerUp;
+            _inputListener.Click += OnPointerClick;
             _gameState.GameStateChanged += OnGameStateChanged;
         }
 
         public void Deinit()
         {
-            _inputListener.Drag -= OnPointerDrag;
-            _inputListener.Up -= OnPointerUp;
+            _inputListener.Click -= OnPointerClick;
             _gameState.GameStateChanged -= OnGameStateChanged;
         }
 
         private void OnGameStateChanged(GameState.State gameState)
         {
-            if ((gameState != GameState.State.Final) || _finalStateStarted)
+            if ((gameState != GameState.State.FinalLaunching) || _finalStateStarted)
             {
                 return;
             }
             _finalStateStarted = true;
+            _arrow.gameObject.SetActive(true);
             _aimAngle = _minAimAngle;
             _sequence = DOTween.Sequence();
             _sequence.Append(DOTween.To(() => _aimAngle, x =>
@@ -59,27 +56,17 @@ namespace Bowling.Gameplay
             _sequence.SetLoops(-1, LoopType.Restart);
             _sequence.SetEase(Ease.Linear);
             _sequence.Play();
-            Debug.Log("Play");
         }
 
-        private void OnPointerDrag(float delta)
+        private void OnPointerClick()
         {
-            if (_gameState.CurrentState != GameState.State.Final)
+            if (_gameState.CurrentState != GameState.State.FinalLaunching)
             {
                 return;
             }
-
-            _aimAngle += delta * _aimMoveSensitivity;
-            _aimAngle = Mathf.Clamp(_aimAngle, _minAimAngle, _maxAimAngle);
-            _arrow.rotation = Quaternion.Euler(new Vector3(0.0f, _aimAngle, 0.0f));
-        }
-
-        private void OnPointerUp()
-        {
-            if (_gameState.CurrentState != GameState.State.Final)
-            {
-                return;
-            }
+            _arrow.gameObject.SetActive(false);
+            _sequence.Kill();
+            _finalBall.Launch(_arrow.forward);
         }
     }
 }

@@ -54,7 +54,7 @@ namespace Bowling.Gameplay
         {
             _movingForward = state == GameState.State.Playing;
 
-            if (state == GameState.State.Final)
+            if (state == GameState.State.FinalCollecting)
             {
                 transform.position = _finalTarget.position;
             }

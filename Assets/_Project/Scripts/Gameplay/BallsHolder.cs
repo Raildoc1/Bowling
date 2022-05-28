@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -41,7 +42,7 @@ namespace Bowling.Gameplay
                 case GameState.State.Playing:
                     SpawnAmount(_initBallsAmount);
                     break;
-                case GameState.State.Final:
+                case GameState.State.FinalCollecting:
                     foreach (var ballMover in _balls)
                     {
                         ballMover.DisableGravity();
@@ -99,9 +100,22 @@ namespace Bowling.Gameplay
         {
             _balls.Remove(ball);
             ball.gameObject.SetActive(false);
-            if (_balls.Count == 0 && _gameState.CurrentState != GameState.State.Final)
+            if (_balls.Count == 0 )
             {
-                _gameState.LoseGame();
+                switch (_gameState.CurrentState)
+                {
+                    case GameState.State.FinalCollecting:
+                        _gameState.StartLaunching();
+                        break;
+                    case GameState.State.Playing:
+                        _gameState.LoseGame();
+                        break;
+                    case GameState.State.WaitingForTap:
+                    case GameState.State.Lost:
+                    case GameState.State.FinalLaunching:
+                    case GameState.State.Win:
+                        break;
+                }
             }
         }
 
