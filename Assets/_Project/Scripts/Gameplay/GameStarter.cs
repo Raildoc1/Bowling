@@ -10,18 +10,21 @@ namespace Bowling.Gameplay
         [SerializeField] private GameState _gameState;
         [SerializeField] private InputListener _inputListener;
         [SerializeField] private FinishTrigger _finishTrigger;
+        [SerializeField] private FinalBallLauncher _finalBallLauncher;
 
         private void Awake()
         {
             _ballsHolder.Init(_gameState);
             _targetMover.Init(_inputListener, _gameState);
             _finishTrigger.Init(_gameState);
+            _finalBallLauncher.Init(_inputListener, _gameState);
         }
 
         private void OnDestroy()
         {
             _ballsHolder.Deinit();
             _targetMover.Deinit();
+            _finalBallLauncher.Deinit();
         }
     }
 

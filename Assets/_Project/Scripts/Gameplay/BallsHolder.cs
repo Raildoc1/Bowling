@@ -99,7 +99,7 @@ namespace Bowling.Gameplay
         {
             _balls.Remove(ball);
             ball.gameObject.SetActive(false);
-            if (_balls.Count == 0)
+            if (_balls.Count == 0 && _gameState.CurrentState != GameState.State.Final)
             {
                 _gameState.LoseGame();
             }

@@ -11,6 +11,7 @@ namespace Bowling.Input
         private bool _dragging = false;
 
         public event Action<float> Drag;
+        public event Action Up;
 
         public void OnPointerDown(PointerEventData eventData)
         {
@@ -20,6 +21,7 @@ namespace Bowling.Input
         public void OnPointerUp(PointerEventData eventData)
         {
             _dragging = false;
+            Up?.Invoke();
         }
 
         public void OnPointerMove(PointerEventData eventData)
